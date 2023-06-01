@@ -2,16 +2,20 @@ import axios from 'axios';
 import { useState } from 'react';
 import { userUrl } from '../../../apiLinks/apiLinks'
 import { useNavigate } from 'react-router-dom'
+import { toast } from 'react-hot-toast';
 
 const RegistrationForm = () => {
     const [userName, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [email,setEmail] = useState('')
+    const [loading,setLoading] = useState(false)
+
     const Navigate = useNavigate()
 
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true)
         if (userName.trim() === '') {
             toast.error('enter valid username')
             return;
@@ -41,7 +45,7 @@ const RegistrationForm = () => {
                 }
             }).catch(() => {
                 toast.error('some unexpected error occurred')
-            })
+            }).finally(()=>setLoading(false))
     };
 
 
@@ -65,7 +69,7 @@ const RegistrationForm = () => {
                     <div className="mb-4">
                         <label htmlFor="username" className="block font-medium mb-2">E-mail</label>
                         <input
-                            type="text"
+                            type="email"
                             id="email"
                             className="w-full border-gray-300 border rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400"
                             placeholder="Enter your username"
@@ -91,8 +95,9 @@ const RegistrationForm = () => {
                         type="submit"
                         className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full mt-4 hover:bg-blue-600 transition-colors duration-300"
                         onClick={handleSubmit}
+                        disabled={loading}
                     >
-                        Register
+                        {loading ?'Please Wait....' : 'Register'}
                     </button>
                     <p className='text-[14px] mt-3 ms-2' onClick={()=>Navigate('/')}>Already a user? <a className='text-blue-900 font-semibold'>Sign In</a></p>
                 </form>

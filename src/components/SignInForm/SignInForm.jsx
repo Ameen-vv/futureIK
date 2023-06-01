@@ -7,10 +7,12 @@ import { useNavigate } from 'react-router-dom'
 const SignInForm = () => {
     const [email,setEmail] = useState('')
     const [password, setPassword] = useState('');
+    const [loading,setLoading] = useState(false)
     const Navigate = useNavigate()
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        setLoading(true)
         axios.post(`${userUrl}signIn`, { email, password })
             .then((response) => {
                 if (response.data.logIn === 'success') {
@@ -19,11 +21,10 @@ const SignInForm = () => {
                 }
                 else if(response.data.logIn === 'noUser'){
                     toast.error('no user with this email please register')
-                    Navigate('/register')
                 }else{
                     toast.error('incorrect password')
                 }
-            }).catch(() => toast.error('some unexpected error occurred'))
+            }).catch(() => toast.error('some unexpected error occurred')).finally(()=>setLoading(false))
     };
 
     return (
@@ -59,8 +60,9 @@ const SignInForm = () => {
                         type="submit"
                         className="bg-blue-500 text-white px-4 py-2 rounded-lg w-full mt-4 hover:bg-blue-600 transition-colors duration-300"
                         onClick={handleSubmit}
+                        disabled={loading}
                     >
-                        Login
+                        {loading ?'Please Wait...' : 'Log In'}
                     </button>
                     <p className='text-[14px] mt-3 ms-2' onClick={()=>Navigate('/register')}>Not registered yet? <a className='text-blue-900 font-semibold'>Sign Up</a></p>
                 </form>

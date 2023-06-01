@@ -1,1 +1,1 @@
-export const userUrl = 'http://localhost:2000/'
+export const userUrl = 'https://futureik-server.onrender.com/'
