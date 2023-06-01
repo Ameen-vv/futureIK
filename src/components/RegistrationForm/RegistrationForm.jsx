@@ -18,14 +18,17 @@ const RegistrationForm = () => {
         setLoading(true)
         if (userName.trim() === '') {
             toast.error('enter valid username')
+            setLoading(false)
             return;
         }
         if (password.trim() === '' || password.length < 6) {
             toast.error('password should contain 6 characters')
+            setLoading(false)
             return;
         }
         if (email.trim() === '') {
             toast.error('enter a valid email')
+            setLoading(false)
             return;
         }
 
