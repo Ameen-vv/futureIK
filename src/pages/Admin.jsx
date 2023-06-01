@@ -14,12 +14,15 @@ import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
-import {BiSupport} from 'react-icons/bi'
-import {LuBellDot} from 'react-icons/lu'
-import {AiOutlineUser} from 'react-icons/ai'
+import { BiSupport } from 'react-icons/bi'
+import { LuBellDot } from 'react-icons/lu'
+import { AiOutlineUser } from 'react-icons/ai'
+import {FiLogOut} from 'react-icons/fi'
 import { useNavigate } from 'react-router-dom';
 import Dashboard from './Dashboard';
+import { Logout } from '@mui/icons-material';
 
 const drawerWidth = 240;
 
@@ -91,6 +94,11 @@ const AdminHome = () => {
         setOpen(false);
     };
 
+    const LogOut = () =>{
+        localStorage.removeItem('token')
+        Navigate('/')
+    }
+
 
 
     return (
@@ -98,7 +106,7 @@ const AdminHome = () => {
             <div className='admin-home'>
                 <Box sx={{ display: 'flex', backgroundColor: '#F6F6F6' }}>
                     <CssBaseline />
-                    <AppBar position="fixed" open={open} style={{display:'flex',flexDirection:'row', justifyContent: 'center', alignItems: 'start', backgroundColor: '#ffff' }}>
+                    <AppBar position="fixed" open={open} style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'start', backgroundColor: '#ffff' }}>
                         <Toolbar>
                             <IconButton
                                 color="black"
@@ -114,14 +122,14 @@ const AdminHome = () => {
                                     <img src="/futureIK.png" alt="" width={100} height={100} />
                                 </Typography>
                             )}
-                             
+
                         </Toolbar>
                         <div className="flex items-center ms-auto my-auto">
                             <BiSupport className='h-6 w-6 text-mainClr mr-4 cursor-pointer' />
                             <LuBellDot className='h-6 w-6 text-mainClr mr-4 cursor-pointer' />
                             <AiOutlineUser className='h-6 w-6 text-mainClr mr-4 cursor-pointer' />
 
-                            </div>
+                        </div>
                     </AppBar>
                     <Drawer
                         sx={{
@@ -145,10 +153,10 @@ const AdminHome = () => {
                             )}
                         </DrawerHeader>
                         <Divider />
-                       
+
                         <List>
                             {links.map((page) => (
-                                <ListItem key={page.label} disablePadding  className={`${page.label === path ? 'bg-[#082A56]' : ''} p-2`}>
+                                <ListItem key={page.label} disablePadding className={`${page.label === path ? 'bg-[#082A56]' : ''} p-2`}>
                                     <ListItemButton>
                                         <span className="me-3">
                                             <img src={`/icons/${page.label}.png`} alt="" />
@@ -157,6 +165,12 @@ const AdminHome = () => {
                                     </ListItemButton>
                                 </ListItem>
                             ))}
+                            <ListItemButton onClick={LogOut}>
+                                <ListItemIcon>
+                                    <FiLogOut className='text-white ms-3 h-10 w-5'/>
+                                </ListItemIcon>
+                                <ListItemText primary={'Log Out'} className='text-white' />
+                            </ListItemButton>
                         </List>
                         <IconButton onClick={handleDrawerClose} className='ms-auto'>
                             {theme.direction === 'ltr' ? <ChevronLeftIcon className='bg-white' /> : <ChevronRightIcon />}
